@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}zamówienie przyjęte!{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .success-container {
+        background: #fff;
+        padding: 40px;
+        max-width: 500px;
+        width: 90%;
+        z-index: 10;
+    }
+
+    h1 { font-weight: 800; color: #000; letter-spacing: -1px; margin-bottom: 20px; }
+    .emoji-big { font-size: 5rem; margin-bottom: 10px; display: block; animation: float 3s ease-in-out infinite; }
+    
+    .btn-black {
+        border-radius: 50px;
+        margin-top: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="success-container">
+    <span class="emoji-big">🎉</span>
+    <h1 class="display-5">gotowe!</h1>
+    <p class="lead fw-bold mb-2">dzięki, {{ imie }}!</p>
+    <p class="text-muted">potwierdzenie wysłaliśmy na: <strong>{{ email }}</strong></p>
+    
+    <a href="/" class="btn btn-black">wróć na stronę główną</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+    window.addEventListener("load", () => {
+        let bursts = [
+            { x: 0.5, y: 0.6 },  
+            { x: 0.25, y: 0.5 }, 
+            { x: 0.75, y: 0.4 }  
+        ];
+
+        bursts.forEach((pos, index) => {
+            setTimeout(() => {
+                confetti({
+                    origin: { x: pos.x, y: pos.y },
+                    particleCount: 100,
+                    spread: 70
+                });
+            }, index * 350);
+        });
+    });
+</script>
+{% endblock %}

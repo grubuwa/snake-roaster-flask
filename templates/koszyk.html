@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}koszyk{% endblock %}
+
+{% block styles %}
+<style>
+    .table th {
+        border-top: none;
+        border-bottom: 2px solid #000; 
+        font-size: 0.8rem;
+        text-transform: lowercase;
+        letter-spacing: 1px;
+        padding-bottom: 15px;
+        color: #999;
+        font-weight: 600;
+    }
+    .table td {
+        vertical-align: middle;
+        padding: 25px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .emoji-inline {
+        font-size: 2rem;
+        margin-right: 15px;
+        background: #f8f9fa;
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
+    .total-row td {
+        border-bottom: none;
+        padding-top: 30px;
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+
+    .form-control {
+        background: #fcfcfc;
+        border: 1px solid #eee;
+        padding: 15px;
+        border-radius: 8px;
+    }
+    .form-control:focus { border-color: #000; background: #fff; box-shadow: none; }
+    
+    .btn-black {
+        width: 100%;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav class="navbar pt-4 pb-5">
+    <div class="container justify-content-center">
+        <a class="navbar-brand" href="/">snake roasters</a>
+    </div>
+</nav>
+
+<div class="container pb-5" style="max-width: 800px;">
+    
+    {% if produkty %}
+        <h2 class="mb-5 fw-bold">twój koszyk</h2>
+
+        <table class="table mb-5">
+            <thead>
+                <tr>
+                    <th style="width: 70%;">nazwa</th> 
+                    <th class="text-end">cena</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in produkty %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="emoji-inline">{{ p.obrazek }}</span>
+                            <div>
+                                <span class="fw-bold">{{ p.nazwa }}</span>
+                                <span class="text-muted small ms-2">({{ p.waga }})</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-end fw-bold">{{ "%.2f"|format(p.cena) }} zł</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td>suma</td>
+                    <td class="text-end">{{ "%.2f"|format(suma) }} zł</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="text-end mb-5">
+            <a href="/wyczysc_koszyk" class="text-danger small text-decoration-none">usuń wszystko</a>
+        </div>
+
+        <div class="p-4 border rounded-4">
+            <h4 class="mb-4 fw-bold">dane do wysyłki</h4>
+            <form action="/zloz_zamowienie" method="POST">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" name="imie" class="form-control" required placeholder="imię">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="email" name="email" class="form-control" required placeholder="email">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" name="adres" class="form-control" required placeholder="adres">
+                    </div>
+                    <div class="col-4">
+                        <input type="text" name="kod" class="form-control" required placeholder="kod pocztowy">
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="miasto" class="form-control" required placeholder="miasto">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-black">złóż zamówienie →</button>
+            </form>
+        </div>
+
+    {% else %}
+        <div class="text-center py-5">
+            <div class="display-1 mb-3">🛒</div>
+            <h3>pusto.</h3>
+            <a href="/" class="btn btn-outline-dark mt-3 px-4 rounded-pill">wróć do sklepu</a>
+        </div>
+    {% endif %}
+    
+</div>
+{% endblock %}

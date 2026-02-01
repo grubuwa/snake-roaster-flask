@@ -18,7 +18,6 @@ class Produkt(db.Model):
     cena = db.Column(db.Float, nullable=False)
     opis = db.Column(db.String(500)) 
     obrazek = db.Column(db.String(10))
-    # NAPRAWIONE: Dodano brakującą kolumnę waga
     waga = db.Column(db.String(20))
 
 def sortowanie_babelkowe(lista_produktow, tryb='rosnaco'):
